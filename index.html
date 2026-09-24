@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Base Conversion Practice</title>
+<meta name="description" content="Practice converting numbers between decimal, binary, hexadecimal and octal, with step-by-step worked solutions.">
+<meta name="theme-color" content="#EEF3E2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1B221D" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Bases">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<main>
+  <header>
+    <h1>Base conversion practice</h1>
+    <p class="bases-strip"><b>202</b> dec = <b>1100 1010</b> bin = <b>CA</b> hex = <b>312</b> oct</p>
+    <p>Pick the bases you want to drill, generate a sheet, and type your answers. Press Enter to check a line and jump to the next one. Spaces, underscores and prefixes like 0x or 0b are fine.</p>
+  </header>
+
+  <section class="controls" aria-label="Sheet settings">
+    <fieldset>
+      <legend>Bases to include</legend>
+      <div class="checks">
+        <label><input type="checkbox" name="base" value="dec" checked> Decimal</label>
+        <label><input type="checkbox" name="base" value="bin" checked> Binary</label>
+        <label><input type="checkbox" name="base" value="hex" checked> Hex</label>
+        <label><input type="checkbox" name="base" value="oct" checked> Octal</label>
+      </div>
+    </fieldset>
+    <div>
+      <label class="lbl" for="range">Number size</label>
+      <select id="range">
+        <option value="15">Up to 15 (one hex digit)</option>
+        <option value="255" selected>Up to 255 (one byte)</option>
+        <option value="4095">Up to 4095 (12 bits)</option>
+        <option value="65535">Up to 65535 (two bytes)</option>
+      </select>
+    </div>
+    <div>
+      <label class="lbl" for="count">Problems</label>
+      <select id="count">
+        <option>10</option><option selected>20</option><option>30</option><option>40</option>
+      </select>
+    </div>
+  </section>
+  <p class="warn" id="warn" role="alert"></p>
+
+  <div class="actions">
+    <button id="newBtn">New sheet</button>
+    <button id="checkBtn" class="ghost">Check all</button>
+    <button id="revealBtn" class="ghost">Show all answers</button>
+    <button id="printBtn" class="ghost">Print with answer key</button>
+    <span class="score" id="score" aria-live="polite"></span>
+  </div>
+
+  <ol class="sheet" id="sheet"></ol>
+
+  <details id="statsPanel">
+    <summary>Your accuracy</summary>
+    <p class="tips">Counts your first check on each problem. Stored only on this device.</p>
+    <div class="tablewrap"><table id="stats"><thead><tr><th>Conversion</th><th>Correct</th><th>Tried</th><th>Accuracy</th></tr></thead><tbody></tbody></table></div>
+    <button id="resetStats" class="ghost small">Reset stats</button>
+  </details>
+
+  <details>
+    <summary>Quick reference: 0 to 15</summary>
+    <div class="tablewrap"><table id="ref"><thead><tr><th>Decimal</th><th>Binary</th><th>Octal</th><th>Hex</th></tr></thead><tbody></tbody></table></div>
+    <p class="tips">One hex digit is exactly 4 bits and one octal digit is exactly 3 bits, so binary to hex or octal is just grouping from the right. Anything to decimal is place values added up. Decimal to anything is repeated division, reading the remainders bottom to top.</p>
+  </details>
+
+  <section class="key" id="key"><h2>Answer key</h2><ol></ol></section>
+</main>
+<script src="./app.js"></script>
+</body>
+</html>
