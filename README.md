@@ -4,6 +4,8 @@ Practice converting numbers between decimal, binary, hexadecimal and octal. Gene
 
 Plain HTML, CSS and JavaScript. No build step, no dependencies.
 
+Check it out for yourself: https://aidanp771.github.io/Base-Conversion-Practice-Gen/
+
 ## Files
 
 | File | Purpose |
