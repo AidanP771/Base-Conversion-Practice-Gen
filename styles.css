@@ -24,6 +24,9 @@ body{
   font-family:Barlow,"Helvetica Neue",Arial,sans-serif; font-size:17px; line-height:1.5;
 }
 main{max-width:860px; margin:0 auto; padding:2rem 1.25rem 4rem}
+nav{display:flex; gap:1rem; margin-bottom:1.25rem; font-weight:600}
+nav a,.learnlink{color:var(--blue); text-underline-offset:3px}
+nav a[aria-current="page"]{color:var(--ink); text-decoration:none}
 header{border-bottom:3px double var(--line); padding-bottom:1rem; margin-bottom:1.5rem}
 h1{font-size:clamp(2rem,6vw,3rem); line-height:1.05; margin:0 0 .4rem; font-weight:700; letter-spacing:-.01em}
 .bases-strip{font-family:"JetBrains Mono",Consolas,monospace; font-size:1rem; color:var(--muted); margin:0 0 .6rem; overflow-x:auto; white-space:nowrap}
@@ -31,6 +34,7 @@ h1{font-size:clamp(2rem,6vw,3rem); line-height:1.05; margin:0 0 .4rem; font-weig
 header p{margin:0; max-width:62ch; color:var(--muted)}
 
 .controls{background:var(--panel); border:1px solid var(--line); border-radius:4px; padding:1rem 1.1rem; display:grid; gap:1rem; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); align-items:end}
+.mode-options{display:contents}
 fieldset{border:0; margin:0; padding:0; min-width:0}
 legend,.lbl{font-weight:600; font-size:.95rem; margin-bottom:.35rem; display:block; padding:0}
 .checks{display:flex; flex-wrap:wrap; gap:.3rem .9rem}
@@ -53,9 +57,13 @@ ol.sheet{list-style:none; margin:.5rem 0 0; padding:0}
 .val sub{font-size:.65em; color:var(--muted); font-weight:400}
 .dir{display:block; font-size:.9rem; color:var(--muted)}
 .ans input{width:100%; font-family:"JetBrains Mono",Consolas,monospace; font-size:1.05rem; color:var(--ink); background:var(--field); border:none; border-bottom:2px solid var(--line); padding:.35rem .4rem; border-radius:2px 2px 0 0}
+.split-fields{display:flex; gap:.35rem}
+.split-fields label{min-width:0; flex:1}
+.split-fields label span{display:block; color:var(--muted); font-size:.75rem; font-family:Barlow,sans-serif}
 .ans input.ok{border-bottom-color:var(--blue)}
 .ans input.bad{border-bottom-color:var(--red)}
 .below{grid-column:2 / -1; display:flex; flex-wrap:wrap; gap:.25rem 1rem; align-items:baseline}
+.learnlink{font-size:.95rem}
 .result{font-weight:600; font-size:.95rem}
 .result.ok{color:var(--blue)}
 .result.bad{color:var(--red)}
@@ -77,13 +85,25 @@ th:first-child,td:first-child{text-align:left}
 #ref th:first-child,#ref td:first-child{text-align:right}
 th{font-family:Barlow,sans-serif; font-weight:600}
 td.empty{text-align:left; font-family:Barlow,sans-serif; color:var(--muted)}
+tr.group th{background:var(--panel); color:var(--blue); text-align:left; padding-top:.65rem}
 .tips{font-size:.95rem; color:var(--muted); margin:.8rem 0 0; max-width:68ch}
+
+.toc{border:1px solid var(--line); background:var(--panel); padding:.8rem 1rem; margin-bottom:1.5rem}
+.toc ol{columns:2; margin:.35rem 0 0; padding-left:1.4rem}
+.toc li{padding:.1rem 0}
+article{border-bottom:1px solid var(--line); padding:1rem 0 1.5rem; max-width:72ch}
+article h2{margin:0 0 .35rem; font-size:1.45rem}
+article p{max-width:68ch}
+.example{background:var(--field); border-left:3px solid var(--blue); padding:.7rem .9rem; margin-top:.8rem; overflow-x:auto}
+.example strong{display:block; font-family:Barlow,sans-serif; margin-bottom:.25rem}
+.example .learnlink{display:inline-block; margin-top:.5rem}
 
 .key{display:none}
 @media (max-width:560px){
   .prob{grid-template-columns:2rem minmax(0,1fr)}
   .ans{grid-column:2}
   .score{margin-left:0; width:100%}
+  .toc ol{columns:1}
 }
 @media print{
   :root{padding:0}
