@@ -1,10 +1,16 @@
 // Bump this when you change any app file so installed copies pick up the update.
-const CACHE = 'bcp-v1';
+const CACHE = 'bcp-v2';
 const CORE = [
   './',
   './index.html',
+  './learn.html',
   './styles.css',
-  './app.js',
+  './js/app.js',
+  './js/learn.js',
+  './js/format.js',
+  './js/types/base.js',
+  './js/types/signed.js',
+  './js/types/float.js',
   './manifest.webmanifest',
   './icons/icon.svg',
   './icons/icon-192.png',

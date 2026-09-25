@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Learn: Base Conversion, Signed Integers, Floating Point</title>
+<meta name="description" content="A short tutorial on number bases, signed integer representations, and IEEE 754 floating point, with worked examples.">
+<meta name="theme-color" content="#EEF3E2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1B221D" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Bases">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<main>
+  <nav class="sitenav" aria-label="Site">
+    <a href="./index.html">Practice</a>
+    <a href="./learn.html" aria-current="page">Learn</a>
+  </nav>
+  <header>
+    <h1>Learn: number bases, signed integers, floating point</h1>
+    <p>Thirteen short lessons, each with one worked example and a link to practice it. Read them in order the first time; after that, jump to whatever you need.</p>
+  </header>
+
+  <nav class="lesson-toc" aria-label="Table of contents">
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#lesson-1">How number bases work</a></li>
+      <li><a href="#lesson-2">Any base to decimal</a></li>
+      <li><a href="#lesson-3">Decimal to any base</a></li>
+      <li><a href="#lesson-4">Binary to hex and octal, and back</a></li>
+      <li><a href="#lesson-5">Hex to octal through binary</a></li>
+      <li><a href="#lesson-6">Signed numbers and why they are tricky</a></li>
+      <li><a href="#lesson-7">One's complement</a></li>
+      <li><a href="#lesson-8">Two's complement</a></li>
+      <li><a href="#lesson-9">How floating point is laid out</a></li>
+      <li><a href="#lesson-10">Decimal to IEEE 754 single precision</a></li>
+      <li><a href="#lesson-11">IEEE 754 single precision back to decimal</a></li>
+      <li><a href="#lesson-12">Double precision: what changes</a></li>
+      <li><a href="#lesson-13">Special values: zero, infinity, NaN, subnormals</a></li>
+    </ol>
+  </nav>
+
+  <section class="lesson" id="lesson-1">
+    <h2>1. How number bases work</h2>
+    <p>A number base (or radix) is just how many symbols you count with before you roll over into another digit. Decimal uses 10 symbols, 0 through 9, because most humans have 10 fingers. There is nothing mathematically special about 10.</p>
+    <p>Every digit in a number has a place value: a power of the base, based on its position counting from the right, starting at position 0. In decimal, the digits of 202 are worth 2&times;10<sup>2</sup>, 0&times;10<sup>1</sup>, and 2&times;10<sup>0</sup>. Add those up and you get 202 back, which sounds circular, but it is exactly the same process any base uses.</p>
+    <p>Computers use binary (base 2) because a transistor or a wire is most reliably read as one of two states: on or off, high voltage or low voltage. Trying to reliably distinguish 10 different voltage levels in hardware is far harder and far more error-prone than distinguishing 2.</p>
+    <p>The trouble with binary is that it is long. A byte like 11001010 is hard to read and easy to mistype. Hex (base 16) and octal (base 8) exist purely as compact stand-ins for binary: because 16 and 8 are powers of 2, each hex or octal digit lines up exactly with a fixed group of bits (4 bits for hex, 3 for octal), so you can convert between them by grouping instead of doing any arithmetic. That grouping trick is lessons 4 and 5.</p>
+    <div class="example">
+      <p class="example-label">Worked example</p>
+      <div id="ex-1"></div>
+    </div>
+    <a class="practice-link" href="./index.html?mode=base">Practice this &rarr;</a>
+  </section>
+
+  <section class="lesson" id="lesson-2">
+    <h2>2. Any base to decimal</h2>
+    <p>To read a number in any base as decimal, multiply each digit by its place value (the base raised to the digit's position, counting from 0 on the right) and add up the results. Digits that are 0 contribute nothing, so you can skip them.</p>
+    <p>This works identically for binary, octal, and hex. The only difference is the base you raise to a power, and, for hex, remembering that A through F stand for 10 through 15.</p>
+    <div class="example">
+      <p class="example-label">Worked example</p>
+      <div id="ex-2"></div>
+    </div>
+    <a class="practice-link" href="./index.html?mode=base&bases=hex,dec">Practice this &rarr;</a>
+  </section>
+
+  <section class="lesson" id="lesson-3">
+    <h2>3. Decimal to any base</h2>
+    <p>Going the other way, from decimal into another base, uses repeated division instead of multiplication. Divide the decimal number by the target base, write down the remainder, then divide the quotient again, and keep going until the quotient is 0. The remainders, read from the last one back to the first (bottom to top, if you wrote them in a column), are the digits of the answer.</p>
+    <p>Why does this work? Each division peels off one digit's worth of place value, starting from the smallest place (position 0) and working up. Reading the remainders bottom to top puts them back in the normal order, most significant digit first.</p>
+    <div class="example">
+      <p class="example-label">Worked example</p>
+      <div id="ex-3"></div>
+    </div>
+    <a class="practice-link" href="./index.html?mode=base&bases=dec,hex">Practice this &rarr;</a>
+  </section>
+
+  <section class="lesson" id="lesson-4">
+    <h2>4. Binary to hex and octal by grouping, and back</h2>
+    <p>Because 16 is 2<sup>4</sup>, every hex digit corresponds to exactly 4 bits. So to convert binary to hex, pad the binary number on the left with zeros until its length is a multiple of 4, split it into groups of 4 from the right, and convert each group to a single hex digit. No arithmetic on the whole number is needed, only on 4 bits at a time.</p>
+    <p>Octal works the same way with groups of 3 bits, since 8 is 2<sup>3</sup>.</p>
+    <p>Going back from hex or octal to binary is the same idea in reverse: write each digit as its fixed-width group of bits (4 bits per hex digit, 3 per octal digit) and join the groups together, dropping only the extra leading zeros on the very first group.</p>
+    <div class="example">
+      <p class="example-label">Worked example</p>
+      <div id="ex-4"></div>
+    </div>
+    <a class="practice-link" href="./index.html?mode=base&bases=bin,hex">Practice this &rarr;</a>
+  </section>
+
+  <section class="lesson" id="lesson-5">
+    <h2>5. Hex to octal through binary</h2>
+    <p>There is no direct grouping trick between hex and octal, because their group sizes (4 bits and 3 bits) do not line up with each other. The practical route is to treat binary as a common middle step: expand the hex digits into bits, then regroup those same bits into octal digits.</p>
+    <p>This is exactly the grouping method from lesson 4, applied twice, once in each direction, with the full binary string as the thing that gets passed between them.</p>
+    <div class="example">
+      <p class="example-label">Worked example</p>
+      <div id="ex-5"></div>
+    </div>
+    <a class="practice-link" href="./index.html?mode=base&bases=hex,oct">Practice this &rarr;</a>
+  </section>
+
+  <section class="lesson" id="lesson-6">
+    <h2>6. Signed numbers and why they are tricky</h2>
+    <p>Everything so far has been unsigned: a bit pattern that only ever means a positive number (or zero). Real programs need negative numbers too, and a fixed-width bit pattern has to encode the sign somehow, using the same bits it would otherwise use for magnitude.</p>
+    <p>The most obvious idea is sign-magnitude: reserve the leftmost bit purely as a sign flag (0 for positive, 1 for negative) and let the remaining bits hold the ordinary binary magnitude. An 8-bit sign-magnitude 5 is 00000101, and -5 is 10000101, just that same pattern with the top bit flipped.</p>
+    <p>Sign-magnitude is easy to understand, but it is awkward for hardware: it produces two different bit patterns for zero (00000000 and 10000000), and ordinary binary addition does not just work on sign-magnitude numbers, addition hardware would need special-case logic for negatives. That is the problem that one's complement and two's complement were each invented to solve, in different ways. Sign-magnitude itself is not used in this app's practice modes; it is here only so the next two lessons have something to compare against.</p>
+  </section>
+
+  <section class="lesson" id="lesson-7">
+    <h2>7. One's complement</h2>
+    <p>One's complement represents a negative number by writing its magnitude in binary and then flipping every bit (a bitwise NOT). To decode a one's complement pattern, look at the leftmost bit: if it is 0, read the rest as an ordinary positive binary number; if it is 1, flip every bit back and read the result as the magnitude, then apply a minus sign.</p>
+    <p>One's complement still has the two-zeros problem: all zeros is positive zero, and all ones is negative zero, and both mean the value 0. It also has a slightly awkward range, from -(2<sup>n-1</sup> - 1) to 2<sup>n-1</sup> - 1 for an n-bit pattern, one less negative value than you might expect, because that extra slot is spent on negative zero.</p>
+    <div class="example">
+      <p class="example-label">Worked example</p>
+      <div id="ex-7"></div>
+    </div>
+    <a class="practice-link" href="./index.html?mode=signed&rep=ones&width=8">Practice this &rarr;</a>
+  </section>
+
+  <section class="lesson" id="lesson-8">
+    <h2>8. Two's complement</h2>
+    <p>Two's complement fixes one's complement's remaining flaw. To encode a negative number, write its magnitude in binary, flip every bit, and then add 1. That last step is the whole difference from one's complement, and it is what removes the extra negative zero: the all-ones pattern that used to mean -0 now, with 1 added, wraps around and decodes as -1 instead.</p>
+    <p>To decode, the same idea in reverse works: if the leftmost bit is 0, read the rest as plain binary. If it is 1, flip every bit, add 1, and that is the magnitude of a negative number.</p>
+    <p>There is a useful shortcut for decoding two's complement without flip-and-add-1: treat the leftmost bit as having a place value of -2<sup>n-1</sup> instead of the usual positive one, and add up all the place values normally, letting that one bit be negative. It gives the same answer directly.</p>
+    <p>Because there is exactly one bit pattern for zero, two's complement gets one extra negative value that one's complement cannot represent: its range is -2<sup>n-1</sup> to 2<sup>n-1</sup> - 1, not symmetric. That asymmetry is also why two's complement can overflow silently in the negative direction: negating the most negative value (for example, -128 in 8 bits) has no representable positive result, since +128 does not fit, and the hardware just wraps back around to -128. Two's complement won out over one's complement and sign-magnitude and is what essentially every modern computer uses, because ordinary binary addition and subtraction hardware works on it unmodified, with no extra sign-handling logic needed.</p>
+    <div class="example">
+      <p class="example-label">Worked example</p>
+      <div id="ex-8"></div>
+    </div>
+    <a class="practice-link" href="./index.html?mode=signed&rep=twos&width=8">Practice this &rarr;</a>
+  </section>
+
+  <section class="lesson" id="lesson-9">
+    <h2>9. How floating point is laid out</h2>
+    <p>Integers, signed or not, cannot represent fractions. IEEE 754 floating point solves that by storing a number in a form similar to scientific notation: a sign, a significand (also called a mantissa or fraction) that holds the significant digits, and an exponent that says how far to shift the point.</p>
+    <p>A single-precision (32-bit) float splits those into 1 sign bit, 8 exponent bits, and 23 fraction bits. Values are normalized so the significand always starts with an implicit 1 before the point, written 1.fraction, and that leading 1 is never actually stored since it is always there for any nonzero normal number. The exponent is stored biased, meaning a fixed offset (127 for single precision) is added to the true exponent before storing it, so the stored field is always non-negative and can be compared as a plain unsigned integer.</p>
+    <p>Put together, a single-precision value's true meaning is (-1)<sup>sign</sup> &times; 1.fraction &times; 2<sup>exponent - 127</sup>.</p>
+    <div class="example">
+      <p class="example-label">Worked example</p>
+      <div id="ex-9"></div>
+    </div>
+    <a class="practice-link" href="./index.html?mode=float&precision=32">Practice this &rarr;</a>
+  </section>
+
+  <section class="lesson" id="lesson-10">
+    <h2>10. Converting a decimal to IEEE 754 single precision</h2>
+    <ol>
+      <li>Work out the sign bit from whether the value is negative.</li>
+      <li>Convert the integer part of the magnitude to binary.</li>
+      <li>Convert the fractional part by doubling it repeatedly: each time the result reaches 1 or more, that step's bit is 1 and you drop the 1; otherwise the bit is 0. Keep going until the fraction is exactly 0 or you have enough bits.</li>
+      <li>Slide the point so the number reads 1.xxxx &times; 2<sup>e</sup>, and note e.</li>
+      <li>Add the bias (127) to e and write that as an 8-bit binary number: the exponent field.</li>
+      <li>Drop the leading 1 from the normalized form and pad the rest on the right with zeros out to 23 bits: the fraction field.</li>
+      <li>Lay the three fields side by side, sign then exponent then fraction, and read the result in hex, 4 bits at a time.</li>
+    </ol>
+    <div class="example">
+      <p class="example-label">Worked example</p>
+      <div id="ex-10"></div>
+    </div>
+    <a class="practice-link" href="./index.html?mode=float&precision=32&directions=toBits">Practice this &rarr;</a>
+  </section>
+
+  <section class="lesson" id="lesson-11">
+    <h2>11. IEEE 754 single precision back to decimal</h2>
+    <ol>
+      <li>Split the 32 bits into sign (1 bit), exponent (8 bits), and fraction (23 bits).</li>
+      <li>Read the sign bit directly.</li>
+      <li>Subtract the bias (127) from the exponent field to get the true exponent.</li>
+      <li>Put the implicit leading 1 back in front of the fraction bits: 1.fraction.</li>
+      <li>Shift that binary point by the true exponent (multiply by 2 raised to that power).</li>
+      <li>Convert the resulting binary value to decimal.</li>
+    </ol>
+    <div class="example">
+      <p class="example-label">Worked example</p>
+      <div id="ex-11"></div>
+    </div>
+    <a class="practice-link" href="./index.html?mode=float&precision=32&directions=toDec">Practice this &rarr;</a>
+  </section>
+
+  <section class="lesson" id="lesson-12">
+    <h2>12. Double precision: what changes</h2>
+    <p>Double precision (64-bit) uses the exact same layout idea as single precision, just with wider fields: 1 sign bit, 11 exponent bits, and 52 fraction bits, with a bias of 1023 instead of 127. Every step from lessons 10 and 11 is identical; only the field widths and the bias number change.</p>
+    <p>The extra exponent bits give double precision a far larger representable range, and the extra fraction bits give it much finer precision, which is why it is the default choice in most programming languages when precision matters more than memory. Because 64 bits of binary is unwieldy to read at a glance, this app always shows double-precision bit patterns as 16 hex digits rather than spelling out all 64 bits, except inside a worked solution, where the bits are shown grouped by field.</p>
+    <div class="example">
+      <p class="example-label">Worked example</p>
+      <div id="ex-12"></div>
+    </div>
+    <a class="practice-link" href="./index.html?mode=float&precision=64">Practice this &rarr;</a>
+  </section>
+
+  <section class="lesson" id="lesson-13">
+    <h2>13. Special values: zero, infinity, NaN, and subnormals</h2>
+    <p>A few bit patterns in IEEE 754 are reserved for values that do not fit the normal 1.fraction &times; 2<sup>exponent - bias</sup> scheme.</p>
+    <p><b>Zero</b> is exponent all 0s and fraction all 0s. The sign bit still applies, so there are two zero bit patterns, +0 and -0, which compare as equal but are not bit-identical.</p>
+    <p><b>Infinity</b> is exponent all 1s and fraction all 0s. The sign bit gives +Infinity or -Infinity, produced by things like dividing a nonzero number by zero, or a value too large to represent.</p>
+    <p><b>NaN</b> (Not a Number) is exponent all 1s with a nonzero fraction. Any nonzero fraction counts as some NaN, which is why invalid operations like 0/0 or the square root of a negative number produce it. This app always shows the canonical quiet NaN, with only the top fraction bit set, as its answer, but accepts any valid NaN pattern you type.</p>
+    <p><b>Subnormals</b> (sometimes called denormals) fill the gap between zero and the smallest normal value. They use an exponent field of all 0s, like zero, but a nonzero fraction, and unlike every other case, they have no implicit leading 1: the value is just 0.fraction &times; 2<sup>1 - bias</sup>. This lets floating point underflow gradually toward zero instead of jumping straight from the smallest normal value to nothing.</p>
+    <div class="example">
+      <p class="example-label">Worked examples</p>
+      <div id="ex-13"></div>
+    </div>
+    <a class="practice-link" href="./index.html?mode=float&specials=1">Practice this &rarr;</a>
+  </section>
+
+  <p class="top-link"><a href="#lesson-1">Back to top</a></p>
+</main>
+<script type="module" src="./js/learn.js"></script>
+</body>
+</html>

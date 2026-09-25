@@ -24,6 +24,10 @@ body{
   font-family:Barlow,"Helvetica Neue",Arial,sans-serif; font-size:17px; line-height:1.5;
 }
 main{max-width:860px; margin:0 auto; padding:2rem 1.25rem 4rem}
+.sitenav{display:flex; gap:1.2rem; margin-bottom:1rem; font-weight:600}
+.sitenav a{color:var(--muted); text-decoration:none; padding-bottom:.15rem; border-bottom:2px solid transparent}
+.sitenav a[aria-current="page"]{color:var(--ink); border-bottom-color:var(--blue)}
+.sitenav a:hover{color:var(--ink)}
 header{border-bottom:3px double var(--line); padding-bottom:1rem; margin-bottom:1.5rem}
 h1{font-size:clamp(2rem,6vw,3rem); line-height:1.05; margin:0 0 .4rem; font-weight:700; letter-spacing:-.01em}
 .bases-strip{font-family:"JetBrains Mono",Consolas,monospace; font-size:1rem; color:var(--muted); margin:0 0 .6rem; overflow-x:auto; white-space:nowrap}
@@ -31,6 +35,7 @@ h1{font-size:clamp(2rem,6vw,3rem); line-height:1.05; margin:0 0 .4rem; font-weig
 header p{margin:0; max-width:62ch; color:var(--muted)}
 
 .controls{background:var(--panel); border:1px solid var(--line); border-radius:4px; padding:1rem 1.1rem; display:grid; gap:1rem; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); align-items:end}
+.mode-select,.mode-options{display:contents}
 fieldset{border:0; margin:0; padding:0; min-width:0}
 legend,.lbl{font-weight:600; font-size:.95rem; margin-bottom:.35rem; display:block; padding:0}
 .checks{display:flex; flex-wrap:wrap; gap:.3rem .9rem}
@@ -55,12 +60,20 @@ ol.sheet{list-style:none; margin:.5rem 0 0; padding:0}
 .ans input{width:100%; font-family:"JetBrains Mono",Consolas,monospace; font-size:1.05rem; color:var(--ink); background:var(--field); border:none; border-bottom:2px solid var(--line); padding:.35rem .4rem; border-radius:2px 2px 0 0}
 .ans input.ok{border-bottom-color:var(--blue)}
 .ans input.bad{border-bottom-color:var(--red)}
+.fieldset-ans{grid-column:1 / -1; display:flex; flex-wrap:wrap; gap:.7rem; margin-top:.2rem}
+.field-in{display:flex; flex-direction:column; align-items:flex-start; gap:.2rem}
+.field-in input{font-family:"JetBrains Mono",Consolas,monospace; font-size:1rem; color:var(--ink); background:var(--field); border:none; border-bottom:2px solid var(--line); padding:.3rem .4rem; border-radius:2px 2px 0 0; width:auto}
+.field-in input.ok{border-bottom-color:var(--blue)}
+.field-in input.bad{border-bottom-color:var(--red)}
+.field-lbl{font-size:.72rem; color:var(--muted)}
+.fields{display:inline-flex; gap:.35em; flex-wrap:wrap; vertical-align:middle}
+.fields .field{background:var(--field); border:1px solid var(--line); border-radius:2px; padding:.05em .4em}
 .below{grid-column:2 / -1; display:flex; flex-wrap:wrap; gap:.25rem 1rem; align-items:baseline}
 .result{font-weight:600; font-size:.95rem}
 .result.ok{color:var(--blue)}
 .result.bad{color:var(--red)}
 .mono{font-family:"JetBrains Mono",Consolas,monospace}
-.worklink{background:none; border:none; color:var(--blue); padding:0; font-weight:500; font-size:.95rem; text-decoration:underline; text-underline-offset:3px}
+.worklink,.learnlink{background:none; border:none; color:var(--blue); padding:0; font-weight:500; font-size:.95rem; text-decoration:underline; text-underline-offset:3px; cursor:pointer}
 .work{grid-column:2 / -1; font-family:"JetBrains Mono",Consolas,monospace; font-size:.88rem; line-height:1.7; background:var(--field); border-left:3px solid var(--blue); padding:.6rem .8rem; overflow-x:auto; white-space:nowrap}
 .work p{margin:0}
 .work .note{font-family:Barlow,sans-serif; font-size:.95rem; white-space:normal; color:var(--muted)}
@@ -77,9 +90,33 @@ th:first-child,td:first-child{text-align:left}
 #ref th:first-child,#ref td:first-child{text-align:right}
 th{font-family:Barlow,sans-serif; font-weight:600}
 td.empty{text-align:left; font-family:Barlow,sans-serif; color:var(--muted)}
+tr.stat-group td{text-align:left; font-family:Barlow,sans-serif; font-weight:600; color:var(--muted); padding-top:.6rem; border-bottom-color:var(--muted)}
 .tips{font-size:.95rem; color:var(--muted); margin:.8rem 0 0; max-width:68ch}
 
 .key{display:none}
+
+/* ---------- learn.html ---------- */
+.lesson-toc{background:var(--panel); border:1px solid var(--line); border-radius:4px; padding:1rem 1.3rem; margin:0 0 2rem}
+.lesson-toc h2{margin-top:0}
+.lesson-toc ol{margin:0; padding-left:1.2rem; columns:2; column-gap:2rem}
+.lesson-toc li{margin:.25rem 0; break-inside:avoid}
+.lesson-toc a{color:var(--ink)}
+.lesson{margin:0 0 2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--line)}
+.lesson:last-of-type{border-bottom:none}
+.lesson h2{font-size:1.4rem; margin:0 0 .8rem; scroll-margin-top:1rem}
+.lesson p{max-width:68ch; margin:0 0 .8rem}
+.example{background:var(--field); border-left:3px solid var(--blue); border-radius:0 4px 4px 0; padding:.7rem 1rem; margin:1rem 0; font-family:"JetBrains Mono",Consolas,monospace; font-size:.9rem; line-height:1.7; overflow-x:auto}
+.example p{margin:0; max-width:none; white-space:nowrap}
+.example .note{font-family:Barlow,sans-serif; font-size:.95rem; white-space:normal; color:var(--muted)}
+.example .res{font-weight:600; color:var(--ink)}
+.example-label{font-family:Barlow,sans-serif; font-weight:600; font-size:.85rem; color:var(--muted); margin:0 0 .4rem; text-transform:uppercase; letter-spacing:.03em}
+.practice-link{display:inline-block; margin-top:.4rem; font-weight:600; color:var(--blue); text-decoration:none; border-bottom:2px solid var(--blue)}
+.practice-link:hover{color:var(--ink); border-bottom-color:var(--ink)}
+.top-link{font-size:.85rem}
+@media print{
+  .practice-link,.top-link{display:none!important}
+  .lesson{break-inside:avoid}
+}
 @media (max-width:560px){
   .prob{grid-template-columns:2rem minmax(0,1fr)}
   .ans{grid-column:2}
@@ -88,10 +125,11 @@ td.empty{text-align:left; font-family:Barlow,sans-serif; color:var(--muted)}
 @media print{
   :root{padding:0}
   body{background:#fff; color:#000; font-size:12pt}
-  .controls,.actions,.below,.work,details,.warn{display:none!important}
+  .controls,.actions,.below,.work,details,.warn,.sitenav{display:none!important}
   main{padding:0; max-width:none}
   .prob{border-bottom:1px solid #999; padding:.55rem 0; break-inside:avoid}
-  .ans input{border:none; border-bottom:1px solid #000; background:none; color:transparent}
+  .ans input,.field-in input{border:none; border-bottom:1px solid #000; background:none; color:transparent}
+  .field-lbl{color:#000}
   .key{display:block; break-before:page}
   .key ol{columns:2; font-family:"JetBrains Mono",Consolas,monospace; font-size:10pt}
 }

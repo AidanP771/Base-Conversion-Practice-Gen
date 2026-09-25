@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Base Conversion Practice</title>
-<meta name="description" content="Practice converting numbers between decimal, binary, hexadecimal and octal, with step-by-step worked solutions.">
+<meta name="description" content="Practice converting numbers between decimal, binary, hexadecimal and octal, signed integers, and IEEE 754 floating point, with step-by-step worked solutions.">
 <meta name="theme-color" content="#EEF3E2" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#1B221D" media="(prefers-color-scheme: dark)">
 <link rel="manifest" href="./manifest.webmanifest">
@@ -20,31 +20,19 @@
 </head>
 <body>
 <main>
+  <nav class="sitenav" aria-label="Site">
+    <a href="./index.html" aria-current="page">Practice</a>
+    <a href="./learn.html">Learn</a>
+  </nav>
   <header>
     <h1>Base conversion practice</h1>
     <p class="bases-strip"><b>202</b> dec = <b>1100 1010</b> bin = <b>CA</b> hex = <b>312</b> oct</p>
-    <p>Pick the bases you want to drill, generate a sheet, and type your answers. Press Enter to check a line and jump to the next one. Spaces, underscores and prefixes like 0x or 0b are fine.</p>
+    <p>Pick a mode, generate a sheet, and type your answers. Press Enter to check a line and jump to the next one. Spaces, underscores and prefixes like 0x or 0b are fine.</p>
   </header>
 
   <section class="controls" aria-label="Sheet settings">
-    <fieldset>
-      <legend>Bases to include</legend>
-      <div class="checks">
-        <label><input type="checkbox" name="base" value="dec" checked> Decimal</label>
-        <label><input type="checkbox" name="base" value="bin" checked> Binary</label>
-        <label><input type="checkbox" name="base" value="hex" checked> Hex</label>
-        <label><input type="checkbox" name="base" value="oct" checked> Octal</label>
-      </div>
-    </fieldset>
-    <div>
-      <label class="lbl" for="range">Number size</label>
-      <select id="range">
-        <option value="15">Up to 15 (one hex digit)</option>
-        <option value="255" selected>Up to 255 (one byte)</option>
-        <option value="4095">Up to 4095 (12 bits)</option>
-        <option value="65535">Up to 65535 (two bytes)</option>
-      </select>
-    </div>
+    <div class="mode-select" id="modeSelect"></div>
+    <div class="mode-options" id="modeOptions"></div>
     <div>
       <label class="lbl" for="count">Problems</label>
       <select id="count">
@@ -79,6 +67,6 @@
 
   <section class="key" id="key"><h2>Answer key</h2><ol></ol></section>
 </main>
-<script src="./app.js"></script>
+<script type="module" src="./js/app.js"></script>
 </body>
 </html>
